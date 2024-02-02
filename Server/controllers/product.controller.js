@@ -30,3 +30,30 @@ module.exports.getOneProduct = (req,res) =>{
         res.json(err)
     })
 }
+
+module.exports.updateOne = (req,res) =>{
+
+    product.findOneAndUpdate(
+        {_id:req.params.id},
+        req.body,
+        {new:true})
+    .then(updatedProduct => {
+        console.log(updatedProduct)
+        res.json(updatedProduct)})
+    .catch(err => {
+        console.log(err)
+        res.json(err)
+    })
+}
+
+module.exports.deleteOne = (req,res) =>{
+
+    product.deleteOne({_id:req.params.id})
+    .then(confirmDelete => {
+        console.log(confirmDelete)
+        res.json(confirmDelete)})
+    .catch(err => {
+        console.log(err)
+        res.json(err)
+    })
+}
