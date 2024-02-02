@@ -1,19 +1,25 @@
 import React,{useState} from 'react'
 import axios from 'axios'
 
-function Form() {
+function Form(props) {
     const [title , setTitle ] = useState("");
     const [desc , setDesc ] = useState("");
     const [price , setPrice ] = useState(0);
-
+    const {products , setProducts} = props;
+    
     const handleSubmit = (e) =>{
         e.preventDefault();
 
-        axios.post("http://localhost:8000/api/product",{
+        axios.post("http://localhost:8000/api/product",
+        {
             title,
             description: desc,
             price
-        }).then(res => console.log(res.data))
+        }).then(res => {
+            console.log(res.data)
+            setProducts([...products ,res.data]);
+        }
+        )
 
     }
 
