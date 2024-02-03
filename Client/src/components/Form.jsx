@@ -2,26 +2,16 @@ import React,{useState} from 'react'
 import axios from 'axios'
 
 function Form(props) {
-    const [title , setTitle ] = useState("");
-    const [desc , setDesc ] = useState("");
-    const [price , setPrice ] = useState(0);
-    const {products , setProducts} = props;
+    const {onSubmitProp,initialTitle , initialDesc, initialPrice} = props;
+    const [title , setTitle ] = useState(initialTitle); // => set the initial values to state so that you can manipulate the form 
+    const [desc , setDesc ] = useState(initialDesc);
+    const [price , setPrice ] = useState(initialPrice);
     
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault();
+        onSubmitProp({title,description: desc,price})
+    } 
 
-        axios.post("http://localhost:8000/api/product",
-        {
-            title,
-            description: desc,
-            price
-        }).then(res => {
-            console.log(res.data)
-            setProducts([...products ,res.data]);
-        }
-        )
-
-    }
 
   return (
     <>          
@@ -34,15 +24,15 @@ function Form(props) {
         <form onSubmit={handleSubmit}>
             <div>
                 <label>Title</label>
-                <input type = "text" onChange={(e) => setTitle(e.target.value)}/>
+                <input type = "text" name="title" value = {title} onChange={(e) => setTitle(e.target.value)}/>
             </div>
             <div>
                 <label>Price</label>
-                <input type = "number" onChange={(e) => setPrice(e.target.value)}/>
+                <input type = "number" name="price" value = {price }onChange={(e) => setPrice(e.target.value)}/>
             </div>
             <div>
                 <label>Description</label>
-                <input type = "text" onChange={(e) => setDesc(e.target.value)}/>
+                <input type = "text" name="desc" value = {desc} onChange={(e) => setDesc(e.target.value)}/>
             </div>
 
             <input type = "submit" value ="Create"/>
